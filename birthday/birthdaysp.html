@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Beautiful Birthday Surprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff75a0;
+            --gold: #d4af37;
+            --soft-cream: #fff9fa;
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; background: #fff5f7;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* --- Background Canvas --- */
+        .bg-canvas {
+            position: fixed; width: 100%; height: 100%; z-index: 0;
+            background: radial-gradient(circle at center, #ffffff 0%, #ffe8ec 100%);
+        }
+
+        .big-flower-bg {
+            position: absolute; font-size: clamp(250px, 40vw, 450px);
+            opacity: 0.12; filter: blur(2px); z-index: 1;
+            animation: slowFloat 15s ease-in-out infinite;
+        }
+
+        @keyframes slowFloat {
+            0%, 100% { transform: translate(0,0) rotate(0deg); }
+            50% { transform: translate(30px, 50px) rotate(15deg); }
+        }
+
+        .sprinkle {
+            position: absolute; top: -50px; z-index: 5;
+            pointer-events: none; animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* --- 3D Card Animation --- */
+        .container {
+            position: relative; z-index: 10; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            perspective: 1500px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            width: 90%; max-width: 480px;
+            padding: 40px; border-radius: 60px;
+            border: 2px solid white;
+            box-shadow: 0 40px 100px rgba(255, 117, 160, 0.2);
+            text-align: center;
+            opacity: 0; transform: scale(0.6) translateY(100px);
+            animation: cardPopup 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes cardPopup {
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* --- Rounded Image Frame with Attached Flower --- */
+        .image-outer {
+            position: relative; width: 200px; height: 200px; margin: 0 auto 30px;
+        }
+
+        .image-frame {
+            width: 100%; height: 100%;
+            padding: 8px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), #fff, var(--gold));
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .image-frame img {
+            width: 180px; height: 180px; border-radius: 50%;
+            object-fit: cover; border: 4px solid white;
+        }
+
+        /* The small flower attached to the border */
+        .attached-flower {
+            position: absolute; bottom: 5px; right: 5px;
+            font-size: 40px; filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.2));
+            z-index: 2; animation: petalShake 3s ease-in-out infinite;
+        }
+
+        @keyframes petalShake {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(15deg); }
+        }
+
+        /* --- Animated Wishing Text --- */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem; color: #d81b60; margin: 10px 0;
+        }
+
+        .wish-line {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem; color: #444; margin: 10px 0;
+            opacity: 0; transform: translateY(20px);
+            animation: textReveal 0.8s ease forwards;
+        }
+
+        .line-1 { animation-delay: 1.5s; }
+        .line-2 { animation-delay: 2.3s; }
+
+        @keyframes textReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Interactive Surprise Box --- */
+        .gift-section {
+            margin-top: 30px; position: relative; display: inline-block;
+        }
+
+        .box-emoji {
+            font-size: 65px; cursor: pointer; transition: 0.3s;
+            display: inline-block; position: relative; z-index: 10;
+        }
+
+        .box-emoji:hover { transform: scale(1.15) rotate(5deg); }
+
+        .surprise-reveal {
+            position: absolute; top: -60px; left: 50%;
+            transform: translateX(-50%) scale(0);
+            width: 300px; font-size: 35px; opacity: 0;
+            transition: 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .opened .surprise-reveal {
+            transform: translateX(-50%) scale(1.1); opacity: 1; top: -90px;
+        }
+
+        .opened .box-emoji { transform: scale(0.8); opacity: 0.5; filter: grayscale(1); }
+
+        .click-hint { font-size: 0.8rem; color: var(--gold); font-weight: 600; margin-top: 10px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-canvas">
+        <div class="big-flower-bg" style="top:-5%; left:-5%;">🌸</div>
+        <div class="big-flower-bg" style="bottom:-5%; right:-5%;">🌺</div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="image-outer">
+                <div class="image-frame">
+                    <img src="bar.jpg">                </div>
+                <div class="attached-flower">🌸</div>
+            </div>
+
+            <h1>Happy Birthday Barshaa!</h1>
+            
+            <p class="wish-line line-1">"May your day be as bright as your smile,"</p>
+            <p class="wish-line line-2"><i><b>" Every moment filled with the sweet fragrance of joy take care and stay happy!</b>"</i></p>
+
+            <div class="gift-section" id="giftSection">
+                <div class="surprise-reveal">🍫 🌸 🍩 🌺 🍬 🌷 🍪</div>
+                <div class="box-emoji" onclick="openBox(event)">🎁</div>
+                <p>TAP TO OPEN SURPRISE!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Logic for Sprinkles & Small Flowers
+        function spawnParticle(x, y, isBurst = false) {
+            const icons = ['✨', '🌸', '💖', '🌷', '•', '🌼', '🍫'];
+            const count = isBurst ? 30 : 1;
+
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'sprinkle';
+                p.innerText = icons[Math.floor(Math.random() * icons.length)];
+                
+                if (isBurst) {
+                    p.style.left = x + 'px';
+                    p.style.top = y + 'px';
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = Math.random() * 150 + 50;
+                    p.style.transform = `translate(${Math.cos(angle)*velocity}px, ${Math.sin(angle)*velocity}px)`;
+                } else {
+                    p.style.left = Math.random() * 100 + 'vw';
+                    p.style.top = '-50px';
+                }
+
+                p.style.fontSize = (Math.random() * 15 + 12) + 'px';
+                p.style.opacity = Math.random();
+                p.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 5000);
+            }
+        }
+
+        // Falling sprinkles loop
+        setInterval(() => spawnParticle(), 250);
+
+        // 2. Surprise Box Function
+        function openBox(e) {
+            const section = document.getElementById('giftSection');
+            const hint = document.getElementById('hint');
+
+            if (!section.classList.contains('opened')) {
+                section.classList.add('opened');
+                hint.innerText = "HAPPINESS UNLOCKED!";
+                
+                // Burst sprinkles from the box position
+                const rect = e.target.getBoundingClientRect();
+                spawnParticle(rect.left + 30, rect.top, true);
+                spawnParticle(rect.left + 30, rect.top, true);
+            }
+        }
+    </script>
+</body>
+</html>
